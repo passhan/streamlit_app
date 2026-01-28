@@ -1,13 +1,13 @@
-﻿全体,,"43,967"
+﻿全体,,"43967"
 gender,loneliness_level,count
-male,always,"1,365"
-male,often,"3,091"
-male,sometimes,"6,002"
-male,rarely,"9,804"
-female ,always,"2,347"
-female,often,"3,862"
-female,sometimes,"7,841"
-female,rarely,"9,237"
+male,always,"1365"
+male,often,"3091"
+male,sometimes,"6002"
+male,rarely,"9804"
+female ,always,"2347"
+female,often,"3862"
+female,sometimes,"7841"
+female,rarely,"9237"
 other,always,70
 other,often,54
 other,sometimes,103
