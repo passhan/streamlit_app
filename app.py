@@ -9,7 +9,7 @@ st.set_page_config(page_title="海外生活における性別ごとの孤独感�
 #layout="wide"は画面横いっぱい使えるようにし、グラフを見やすくしている
 
 st.title('海外生活における性別ごとの孤独感の分布 ')
-st.write('海外における孤独・孤立感について、性別ごとの分布をグラフや表で示すアプリです。')
+st.write('海外における孤独・孤立感について、性別ごとの分布をグラフや表で示すアプリです。画面左側のサイドバーより性別を選択すると、対応するデータが表やグラフで表示されます。')
 
 #CSV読み込み
 df = pd.read_csv(r'C:\Users\T125025\Documents\streamlit.最終課題\loneliness_by_gender.csv',
