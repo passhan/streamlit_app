@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import altair as alt
 
 st.set_page_config(page_title="海外生活における性別ごとの孤独感の分布", layout="wide")
@@ -31,6 +29,16 @@ with st.sidebar:
 
     gender = st.multiselect('性別を選択してください',
                             ['男性', '女性', 'その他','全体'])
+    
+    graph_type = st.selectbox(
+        "グラフの種類を選択してください",
+        [
+            "横棒グラフ",
+            "縦棒グラフ",
+            "折れ線グラフ",
+            "グループ化棒グラフ"
+        ]
+    )
 
 selected_gender = []  #空のリストを作り英語の性別を入れる
 for g in gender:  #サイドバーで選んだ性別を取りだす
@@ -53,18 +61,47 @@ with tab1:
     st.dataframe(filtered_df)
 #グラフタブ
 with tab2:
-    color_on = st.toggle("性別で色分けする")  #toggleで色分けをON/OFFしている
-    if color_on:
-        color_option = "gender:N"
-    else:
-        color_option = alt.value("steelblue")
+     color_on = st.toggle("性別で色分けする")  #toggleで色分けをON/OFFしている
+     if color_on:
+          color_option = "gender:N"
+     else:
+          color_option = alt.value("steelblue")
 
-    chart = (alt.Chart(filtered_df)  #filtered_dfで選んだ性別だけのグラフが描かれる
-             .mark_bar()  #棒グラフを描く指示
-             .encode(  #どのデータをどの軸に置くのか
-                 x="count:Q",  #count(人数)をX軸に置く
-                 y=alt.Y("loneliness_level:N", sort=["always", "often", "sometimes", "rarely"]),  #孤独レベルをY軸に置く、sort=[]で表示順を指定
-                 color=color_option
-             )
-    )
-    st.altair_chart(chart, use_container_width=True)  #作成したグラフをStreamlit上に表示し、chart, use_container_width=Trueで横幅いっぱいに広げ、レイアウトをきれいに見せる
+     if graph_type == "横棒グラフ":
+          chart = (alt.Chart(filtered_df)  #filtered_dfで選んだ性別だけのグラフが描かれる
+          .mark_bar()  #棒グラフを描く指示
+          .encode(  #どのデータをどの軸に置くのか
+               x="count:Q",  #count(人数)をX軸に置く
+               y=alt.Y("loneliness_level:N", sort=["always", "often", "sometimes", "rarely"]),  #孤独レベルをY軸に置く、sort=[]で表示順を指定
+               color=color_option   #坊や線の色をどう決めるかを指定。color_optionの変数の」内容に従って決められる。
+               )
+          )
+     elif graph_type == "縦棒グラフ":
+          chart = (alt.Chart(filtered_df)  
+          .mark_bar()  
+          .encode(  
+               x=alt.X("loneliness_level:N", sort=["always", "often", "sometimes", "rarely"]),   #孤独レベルをx軸に置く、sort=[]で表示順を指定
+               y="count:Q",  #count(人数)をy軸に置く
+               color=color_option
+               )
+          )
+     elif graph_type == "折れ線グラフ":
+          chart = (alt.Chart(filtered_df)
+          .mark_line(point=True)   #mark_lineで折れ線グラフを描く  #ppoint=Trueで折れ線の各点にっ丸井マーカーを付ける
+          .encode(
+               x=alt.X("loneliness_level:N", sort=["always", "often", "sometimes", "rarely"]),
+               y="count:Q",
+               color=color_option
+               )
+          )
+     elif graph_type == "グループ化棒グラフ":
+          chart = (alt.Chart(filtered_df)
+          .mark_bar()
+          .encode(
+               x=alt.X("loneliness_level:N", sort=["always", "often", "sometimes", "rarely"]),
+               y="count:Q",
+               color="gender:N",
+               row="gender:N"   #性別ごとに並べる
+               )
+          )
+     st.altair_chart(chart, use_container_width=True)  #作成したグラフをStreamlit上に表示し、chart, use_container_width=Trueで横幅いっぱいに広げ、レイアウトをきれいに見せる
