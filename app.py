@@ -10,7 +10,7 @@ st.title('海外生活における性別ごとの孤独感の分布 ')
 st.write('海外における孤独・孤立感について、性別ごとの分布をグラフや表で示すアプリです。画面左側のサイドバーより性別を選択すると、対応するデータが表やグラフで表示されます。')
 
 #CSV読み込み
-df = pd.read_csv(r'C:\Users\T125025\Documents\streamlit.最終課題\loneliness_by_gender.csv',
+df = pd.read_csv("loneliness_by_gender.csv",
                  encoding="utf-8-sig",  #encoding="utf-8-sig"は、日本語のCSVファイルの文字化けやエラーを防いでいる
                  header=1)  
 df["count"] = pd.to_numeric(df["count"].astype(str).str.replace('"', ''),errors="coerce")
